@@ -21,7 +21,12 @@ class RaceAdminView extends GetView<RaceAdminController> {
               children: [
                 Expanded(child: _buildHeaderButton('All Report')),
                 const SizedBox(width: 16),
-                Expanded(child: _buildHeaderButton('Request Race')),
+                Expanded(
+                  child: _buildHeaderButton(
+                    'Request Race',
+                    onPressed: () => Get.toNamed('/race-requests'),
+                  ),
+                ),
                 const SizedBox(width: 16),
                 Expanded(child: _buildHeaderButton('+ Create a Race')),
               ],
@@ -147,9 +152,9 @@ class RaceAdminView extends GetView<RaceAdminController> {
     );
   }
 
-  Widget _buildHeaderButton(String text) {
+  Widget _buildHeaderButton(String text, {VoidCallback? onPressed}) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed ?? () {},
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryRed,
         foregroundColor: AppColors.rowWhite,

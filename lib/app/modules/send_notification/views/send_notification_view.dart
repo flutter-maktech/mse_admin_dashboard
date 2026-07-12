@@ -4,7 +4,7 @@ import '../controllers/send_notification_controller.dart';
 import '../../../constants/app_colors.dart';
 
 class SendNotificationView extends GetView<SendNotificationController> {
-  const SendNotificationView({Key? key}) : super(key: key);
+  const SendNotificationView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -10,6 +10,7 @@ abstract class Routes {
   static const CREATE_EVENT = _Paths.CREATE_EVENT;
   static const UPDATE_EVENT = _Paths.UPDATE_EVENT;
   static const SEND_NOTIFICATION = _Paths.SEND_NOTIFICATION;
+  static const RACE_REQUESTS = _Paths.RACE_REQUESTS;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const CREATE_EVENT = '/create-event';
   static const UPDATE_EVENT = '/update-event';
   static const SEND_NOTIFICATION = '/send-notification';
+  static const RACE_REQUESTS = '/race-requests';
 }

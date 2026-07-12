@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../../constants/app_constants.dart';
 import '../models/event_model.dart';
 import '../models/race_model.dart';
+import '../models/race_request_model.dart';
 
 class ApiProvider extends GetConnect {
   @override
@@ -62,12 +63,25 @@ class ApiProvider extends GetConnect {
 
   Future<void> sendNotification(String message) async {
     final data = {
-      'title': 'Important announcement from MSE team!',
+      'title': 'Notification',
       'description': message
     };
     final response = await post('/promotions/', data);
     if (response.status.hasError) {
       return Future.error(response.body?['detail'] ?? response.statusText ?? 'Failed to send notification');
+    }
+  }
+
+  Future<List<RaceRequestModel>> getRaceRequests() async {
+    final response = await get('/request/');
+    if (response.status.hasError) {
+      return Future.error(response.statusText ?? 'Failed to load requests');
+    } else {
+      if (response.body is List) {
+        return (response.body as List).map((e) => RaceRequestModel.fromJson(e)).toList();
+      } else {
+        return Future.error('Invalid data format');
+      }
     }
   }
 }

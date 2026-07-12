@@ -14,13 +14,15 @@ import '../modules/update_event/bindings/update_event_binding.dart';
 import '../modules/update_event/views/update_event_view.dart';
 import '../modules/send_notification/bindings/send_notification_binding.dart';
 import '../modules/send_notification/views/send_notification_view.dart';
+import '../modules/race_requests/bindings/race_requests_binding.dart';
+import '../modules/race_requests/views/race_requests_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.RACE_ADMIN;
 
   static final routes = [
     GetPage(
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.SEND_NOTIFICATION,
       page: () => const SendNotificationView(),
       binding: SendNotificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.RACE_REQUESTS,
+      page: () => const RaceRequestsView(),
+      binding: RaceRequestsBinding(),
     ),
   ];
 }
