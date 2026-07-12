@@ -44,4 +44,19 @@ class ApiProvider extends GetConnect {
     }
     return EventModel.fromJson(response.body);
   }
+
+  Future<void> deleteEvent(int id) async {
+    final response = await delete('/events/$id');
+    if (response.status.hasError) {
+      return Future.error(response.statusText ?? 'Failed to delete event');
+    }
+  }
+
+  Future<EventModel> updateEvent(int id, Map<String, dynamic> data) async {
+    final response = await put('/events/$id', data);
+    if (response.status.hasError) {
+      return Future.error(response.body?['detail'] ?? response.statusText ?? 'Failed to update event');
+    }
+    return EventModel.fromJson(response.body);
+  }
 }

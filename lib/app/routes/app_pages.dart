@@ -10,13 +10,15 @@ import '../modules/all_events/bindings/all_events_binding.dart';
 import '../modules/all_events/views/all_events_view.dart';
 import '../modules/create_event/bindings/create_event_binding.dart';
 import '../modules/create_event/views/create_event_view.dart';
+import '../modules/update_event/bindings/update_event_binding.dart';
+import '../modules/update_event/views/update_event_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.RACE_ADMIN;
+  static const INITIAL = Routes.HOME;
 
   static final routes = [
     GetPage(
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.CREATE_EVENT,
       page: () => const CreateEventView(),
       binding: CreateEventBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPDATE_EVENT,
+      page: () => const UpdateEventView(),
+      binding: UpdateEventBinding(),
     ),
   ];
 }

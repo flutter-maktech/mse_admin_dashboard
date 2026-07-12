@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../../../data/models/event_model.dart';
 import '../../../data/models/race_model.dart';
+import '../../../data/providers/api_provider.dart';
 import 'package:intl/intl.dart';
 
 class AllEventsController extends GetxController {
@@ -39,6 +40,31 @@ class AllEventsController extends GetxController {
       return DateFormat('dd/MM/yyyy').format(date);
     } catch (e) {
       return 'Invalid Date';
+    }
+  }
+
+  void deleteEvent(int id) async {
+    try {
+      await Get.find<ApiProvider>().deleteEvent(id);
+      rxEvents.removeWhere((e) => e.id == id);
+      race.events?.removeWhere((e) => e.id == id);
+      Get.snackbar('Success', 'Event deleted successfully', snackPosition: SnackPosition.BOTTOM);
+    } catch (e) {
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
+  void updateLocalEvent(EventModel updatedEvent) {
+    final index = rxEvents.indexWhere((e) => e.id == updatedEvent.id);
+    if (index != -1) {
+      rxEvents[index] = updatedEvent;
+    }
+    
+    if (race.events != null) {
+      final raceIndex = race.events!.indexWhere((e) => e.id == updatedEvent.id);
+      if (raceIndex != -1) {
+        race.events![raceIndex] = updatedEvent;
+      }
     }
   }
 }
