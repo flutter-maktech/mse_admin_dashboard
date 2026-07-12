@@ -11,6 +11,21 @@ class ApiProvider extends GetConnect {
     httpClient.baseUrl = AppConstants.apiBaseUrl;
   }
 
+  Future<String> adminLogin(String email, String password) async {
+    final form = FormData({
+      'username': email,
+      'password': password,
+    });
+    
+    final response = await post('/auth/user/login_for_admin', form);
+    
+    if (response.status.hasError) {
+      return Future.error(response.body?['detail'] ?? response.statusText ?? 'Login failed');
+    }
+    
+    return response.body['access_token'];
+  }
+
   Future<List<RaceModel>> getRaces() async {
     final response = await get('/race/');
     if (response.status.hasError) {

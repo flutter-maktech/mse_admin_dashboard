@@ -20,13 +20,15 @@ import '../modules/race_reports/bindings/race_reports_binding.dart';
 import '../modules/race_reports/views/race_reports_view.dart';
 import '../modules/create_race/bindings/create_race_binding.dart';
 import '../modules/create_race/views/create_race_view.dart';
+import '../modules/login/bindings/login_binding.dart';
+import '../modules/login/views/login_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.RACE_ADMIN;
+  static const INITIAL = Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -78,6 +80,11 @@ class AppPages {
       name: _Paths.CREATE_RACE,
       page: () => const CreateRaceView(),
       binding: CreateRaceBinding(),
+    ),
+    GetPage(
+      name: _Paths.LOGIN,
+      page: () => const LoginView(),
+      binding: LoginBinding(),
     ),
   ];
 }
