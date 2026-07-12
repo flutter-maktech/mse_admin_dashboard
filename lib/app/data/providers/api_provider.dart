@@ -59,4 +59,15 @@ class ApiProvider extends GetConnect {
     }
     return EventModel.fromJson(response.body);
   }
+
+  Future<void> sendNotification(String message) async {
+    final data = {
+      'title': 'Important announcement from MSE team!',
+      'description': message
+    };
+    final response = await post('/promotions/', data);
+    if (response.status.hasError) {
+      return Future.error(response.body?['detail'] ?? response.statusText ?? 'Failed to send notification');
+    }
+  }
 }

@@ -38,7 +38,9 @@ class RaceAdminView extends GetView<RaceAdminController> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.notifications_none, color: AppColors.primaryRed),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed('/send-notification');
+                  },
                 ),
               ],
             ),
