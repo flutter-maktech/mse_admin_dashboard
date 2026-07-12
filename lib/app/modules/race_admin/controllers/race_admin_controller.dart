@@ -4,7 +4,7 @@ import '../../../data/providers/api_provider.dart';
 
 class RaceAdminController extends GetxController {
   final ApiProvider apiProvider;
-  
+
   RaceAdminController({required this.apiProvider});
 
   final rxRaces = <RaceModel>[].obs;
@@ -35,7 +35,11 @@ class RaceAdminController extends GetxController {
       // Optional: show loading overlay using Get.dialog
       await apiProvider.deleteRace(id);
       rxRaces.removeWhere((race) => race.id == id);
-      Get.snackbar('Success', 'Race deleted successfully', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Success',
+        'Race deleted successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } catch (e) {
       Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
     }

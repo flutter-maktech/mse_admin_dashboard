@@ -4,7 +4,7 @@ import '../controllers/update_race_controller.dart';
 import '../../../constants/app_colors.dart';
 
 class UpdateRaceView extends GetView<UpdateRaceController> {
-  const UpdateRaceView({Key? key}) : super(key: key);
+  const UpdateRaceView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,10 @@ class UpdateRaceView extends GetView<UpdateRaceController> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryRed,
                       foregroundColor: AppColors.rowWhite,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 16,
+                      ),
                     ),
                     onPressed: () => Get.back(),
                     child: const Text('Dashboard'),
@@ -41,33 +44,50 @@ class UpdateRaceView extends GetView<UpdateRaceController> {
                 ],
               ),
               const SizedBox(height: 32),
-              
+
               _buildLabel('Serial Number'),
               const SizedBox(height: 8),
-              _buildTextField(controller.serialNumberController, isNumber: true),
-              
+              _buildTextField(
+                controller.serialNumberController,
+                isNumber: true,
+              ),
+
               const SizedBox(height: 16),
               _buildLabel('Race Name'),
               const SizedBox(height: 8),
               _buildTextField(controller.nameController),
-              
+
               const SizedBox(height: 16),
               _buildLabel('Paste Logo Link'),
               const SizedBox(height: 8),
               _buildTextField(controller.logoController),
-              
+
               const SizedBox(height: 32),
-              Obx(() => ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryRed,
-                      foregroundColor: AppColors.rowWhite,
-                      padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+              Obx(
+                () => ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryRed,
+                    foregroundColor: AppColors.rowWhite,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 48,
+                      vertical: 16,
                     ),
-                    onPressed: controller.isLoading.value ? null : controller.updateRace,
-                    child: controller.isLoading.value
-                        ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppColors.rowWhite, strokeWidth: 2))
-                        : const Text('Save'),
-                  )),
+                  ),
+                  onPressed: controller.isLoading.value
+                      ? null
+                      : controller.updateRace,
+                  child: controller.isLoading.value
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: AppColors.rowWhite,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Text('Save'),
+                ),
+              ),
             ],
           ),
         ),
@@ -78,18 +98,27 @@ class UpdateRaceView extends GetView<UpdateRaceController> {
   Widget _buildLabel(String text) {
     return Text(
       text,
-      style: TextStyle(fontSize: 14, color: AppColors.textBlack.withOpacity(0.7)),
+      style: TextStyle(
+        fontSize: 14,
+        color: AppColors.textBlack.withValues(alpha: 0.7),
+      ),
     );
   }
 
-  Widget _buildTextField(TextEditingController textController, {bool isNumber = false}) {
+  Widget _buildTextField(
+    TextEditingController textController, {
+    bool isNumber = false,
+  }) {
     return TextField(
       controller: textController,
       keyboardType: isNumber ? TextInputType.number : TextInputType.text,
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.rowWhite,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
           borderSide: BorderSide.none,

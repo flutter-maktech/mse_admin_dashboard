@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:mse_dashboard/app/routes/app_pages.dart';
 import '../../../data/providers/api_provider.dart';
 import '../../all_events/controllers/all_events_controller.dart';
 
 class CreateEventController extends GetxController {
   final ApiProvider apiProvider;
-  
+
   CreateEventController({required this.apiProvider});
 
   late int raceId;
-  
+
   final tvChannelController = TextEditingController();
   final radioChannelController = TextEditingController();
   final locationController = TextEditingController();
@@ -57,22 +56,37 @@ class CreateEventController extends GetxController {
     );
     if (pickedTime != null) {
       selectedTime = pickedTime;
-      timeController.text = pickedTime.format(context);
+      if (context.mounted) {
+        timeController.text = pickedTime.format(context);
+      }
     }
   }
 
   void createEvent() async {
-    if (locationController.text.isEmpty || dateController.text.isEmpty || timeController.text.isEmpty || selectedTime == null) {
-      Get.snackbar('Error', 'Location, Date, and Time are required', snackPosition: SnackPosition.BOTTOM);
+    if (locationController.text.isEmpty ||
+        dateController.text.isEmpty ||
+        timeController.text.isEmpty ||
+        selectedTime == null) {
+      Get.snackbar(
+        'Error',
+        'Location, Date, and Time are required',
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return;
     }
-    
+
     try {
       isLoading.value = true;
 
       // Parse date and time into ISO 8601
       final datePart = DateFormat('dd/MM/yyyy').parse(dateController.text);
-      final dateTime = DateTime(datePart.year, datePart.month, datePart.day, selectedTime!.hour, selectedTime!.minute);
+      final dateTime = DateTime(
+        datePart.year,
+        datePart.month,
+        datePart.day,
+        selectedTime!.hour,
+        selectedTime!.minute,
+      );
 
       final data = {
         'race_id': raceId,
@@ -81,18 +95,22 @@ class CreateEventController extends GetxController {
         'location': locationController.text,
         'started_at': dateTime.toUtc().toIso8601String(),
       };
-      
+
       final createdEvent = await apiProvider.createEvent(data);
-      
-      Get.snackbar('Success', 'Event created successfully', snackPosition: SnackPosition.BOTTOM);
-      
+
+      Get.snackbar(
+        'Success',
+        'Event created successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+
       // Add the new event to the list dynamically
       if (Get.isRegistered<AllEventsController>()) {
         Get.find<AllEventsController>().addEvent(createdEvent);
       }
-      
+
       Future.delayed(const Duration(milliseconds: 1500), () {
-        Get.toNamed(Routes.RACE_ADMIN); // Go back to All Events
+        Get.back(); // Go back to All Events
       });
     } catch (e) {
       Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);

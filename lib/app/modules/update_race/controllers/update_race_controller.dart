@@ -7,11 +7,11 @@ import '../../race_admin/controllers/race_admin_controller.dart';
 
 class UpdateRaceController extends GetxController {
   final ApiProvider apiProvider;
-  
+
   UpdateRaceController({required this.apiProvider});
 
   late RaceModel race;
-  
+
   final serialNumberController = TextEditingController();
   final nameController = TextEditingController();
   final logoController = TextEditingController();
@@ -37,29 +37,38 @@ class UpdateRaceController extends GetxController {
 
   void updateRace() async {
     if (nameController.text.isEmpty) {
-      Get.snackbar('Error', 'Name is required', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Name is required',
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return;
     }
-    
+
     try {
       isLoading.value = true;
       final data = {
-        if (serialNumberController.text.isNotEmpty) 'serial_number': int.tryParse(serialNumberController.text),
+        if (serialNumberController.text.isNotEmpty)
+          'serial_number': int.tryParse(serialNumberController.text),
         'name': nameController.text,
         'image_logo': logoController.text,
       };
-      
+
       await apiProvider.updateRace(race.id!, data);
-      
-      Get.snackbar('Success', 'Race updated successfully', snackPosition: SnackPosition.BOTTOM);
-      
+
+      Get.snackbar(
+        'Success',
+        'Race updated successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+
       // Refresh previous list
       if (Get.isRegistered<RaceAdminController>()) {
         Get.find<RaceAdminController>().fetchRaces();
       }
-      
+
       Future.delayed(const Duration(milliseconds: 1500), () {
-        Get.toNamed(Routes.RACE_ADMIN); // Go back to dashboard
+        Get.toNamed(Routes.raceAdmin); // Go back to dashboard
       });
     } catch (e) {
       Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);

@@ -4,7 +4,7 @@ import '../../../data/providers/api_provider.dart';
 
 class SendNotificationController extends GetxController {
   final ApiProvider apiProvider;
-  
+
   SendNotificationController({required this.apiProvider});
 
   final messageController = TextEditingController();
@@ -19,16 +19,24 @@ class SendNotificationController extends GetxController {
   void sendNotification() async {
     final message = messageController.text.trim();
     if (message.isEmpty) {
-      Get.snackbar('Error', 'Message cannot be empty', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Message cannot be empty',
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return;
     }
-    
+
     try {
       isLoading.value = true;
       await apiProvider.sendNotification(message);
-      
-      Get.snackbar('Success', 'Notification sent successfully', snackPosition: SnackPosition.BOTTOM);
-      
+
+      Get.snackbar(
+        'Success',
+        'Notification sent successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+
       Future.delayed(const Duration(milliseconds: 1500), () {
         Get.back();
       });

@@ -4,7 +4,7 @@ import '../../../data/providers/api_provider.dart';
 
 class LoginController extends GetxController {
   final ApiProvider apiProvider;
-  
+
   LoginController({required this.apiProvider});
 
   final emailController = TextEditingController();
@@ -28,13 +28,17 @@ class LoginController extends GetxController {
     final password = passwordController.text;
 
     if (email.isEmpty || password.isEmpty) {
-      Get.snackbar('Error', 'Please enter both email and password', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        'Please enter both email and password',
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return;
     }
 
     try {
       isLoading.value = true;
-      final token = await apiProvider.adminLogin(email, password);
+      await apiProvider.adminLogin(email, password);
       // If successful, navigate to RACE_ADMIN
       Get.offAllNamed('/race-admin');
     } catch (e) {

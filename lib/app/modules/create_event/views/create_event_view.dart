@@ -4,7 +4,7 @@ import '../controllers/create_event_controller.dart';
 import '../../../constants/app_colors.dart';
 
 class CreateEventView extends GetView<CreateEventController> {
-  const CreateEventView({Key? key}) : super(key: key);
+  const CreateEventView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class CreateEventView extends GetView<CreateEventController> {
                 style: TextStyle(fontSize: 24, color: AppColors.textBlack),
               ),
               const SizedBox(height: 32),
-              
+
               Row(
                 children: [
                   Expanded(
@@ -36,7 +36,10 @@ class CreateEventView extends GetView<CreateEventController> {
                       children: [
                         _buildLabel('Broadcast Tv channel'),
                         const SizedBox(height: 8),
-                        _buildTextField(controller.tvChannelController, hintText: 'Write a channel name..'),
+                        _buildTextField(
+                          controller.tvChannelController,
+                          hintText: 'Write a channel name..',
+                        ),
                       ],
                     ),
                   ),
@@ -47,18 +50,24 @@ class CreateEventView extends GetView<CreateEventController> {
                       children: [
                         _buildLabel('Broadcast Radio channel'),
                         const SizedBox(height: 8),
-                        _buildTextField(controller.radioChannelController, hintText: 'Write a radio channel name..'),
+                        _buildTextField(
+                          controller.radioChannelController,
+                          hintText: 'Write a radio channel name..',
+                        ),
                       ],
                     ),
                   ),
                 ],
               ),
-              
+
               const SizedBox(height: 24),
               _buildLabel('Location'),
               const SizedBox(height: 8),
-              _buildTextField(controller.locationController, hintText: 'Location'),
-              
+              _buildTextField(
+                controller.locationController,
+                hintText: 'Location',
+              ),
+
               const SizedBox(height: 24),
               Row(
                 children: [
@@ -69,7 +78,7 @@ class CreateEventView extends GetView<CreateEventController> {
                         _buildLabel('Date'),
                         const SizedBox(height: 8),
                         _buildTextField(
-                          controller.dateController, 
+                          controller.dateController,
                           hintText: '00/00/0000',
                           suffixIcon: Icons.calendar_today_outlined,
                           readOnly: true,
@@ -86,7 +95,7 @@ class CreateEventView extends GetView<CreateEventController> {
                         _buildLabel('Time'),
                         const SizedBox(height: 8),
                         _buildTextField(
-                          controller.timeController, 
+                          controller.timeController,
                           hintText: '00:00',
                           suffixIcon: Icons.access_time_outlined,
                           readOnly: true,
@@ -97,19 +106,33 @@ class CreateEventView extends GetView<CreateEventController> {
                   ),
                 ],
               ),
-              
+
               const SizedBox(height: 40),
-              Obx(() => ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryRed,
-                      foregroundColor: AppColors.rowWhite,
-                      padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+              Obx(
+                () => ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryRed,
+                    foregroundColor: AppColors.rowWhite,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 48,
+                      vertical: 16,
                     ),
-                    onPressed: controller.isLoading.value ? null : controller.createEvent,
-                    child: controller.isLoading.value
-                        ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppColors.rowWhite, strokeWidth: 2))
-                        : const Text('Create an Event'),
-                  )),
+                  ),
+                  onPressed: controller.isLoading.value
+                      ? null
+                      : controller.createEvent,
+                  child: controller.isLoading.value
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: AppColors.rowWhite,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Text('Create an Event'),
+                ),
+              ),
             ],
           ),
         ),
@@ -120,11 +143,20 @@ class CreateEventView extends GetView<CreateEventController> {
   Widget _buildLabel(String text) {
     return Text(
       text,
-      style: TextStyle(fontSize: 14, color: AppColors.textBlack.withOpacity(0.9)),
+      style: TextStyle(
+        fontSize: 14,
+        color: AppColors.textBlack.withValues(alpha: 0.9),
+      ),
     );
   }
 
-  Widget _buildTextField(TextEditingController textController, {String? hintText, IconData? suffixIcon, bool readOnly = false, VoidCallback? onTap}) {
+  Widget _buildTextField(
+    TextEditingController textController, {
+    String? hintText,
+    IconData? suffixIcon,
+    bool readOnly = false,
+    VoidCallback? onTap,
+  }) {
     return TextField(
       controller: textController,
       readOnly: readOnly,
@@ -133,13 +165,21 @@ class CreateEventView extends GetView<CreateEventController> {
         filled: true,
         fillColor: AppColors.rowWhite,
         hintText: hintText,
-        hintStyle: TextStyle(color: AppColors.textBlack.withOpacity(0.5)),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        hintStyle: TextStyle(color: AppColors.textBlack.withValues(alpha: 0.5)),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
           borderSide: BorderSide.none,
         ),
-        suffixIcon: suffixIcon != null ? Icon(suffixIcon, color: AppColors.textBlack.withOpacity(0.7)) : null,
+        suffixIcon: suffixIcon != null
+            ? Icon(
+                suffixIcon,
+                color: AppColors.textBlack.withValues(alpha: 0.7),
+              )
+            : null,
       ),
     );
   }

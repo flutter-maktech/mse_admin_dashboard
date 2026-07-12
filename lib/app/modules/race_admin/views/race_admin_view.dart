@@ -5,7 +5,7 @@ import '../../../constants/app_colors.dart';
 import '../../../data/models/race_model.dart';
 
 class RaceAdminView extends GetView<RaceAdminController> {
-  const RaceAdminView({Key? key}) : super(key: key);
+  const RaceAdminView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +39,34 @@ class RaceAdminView extends GetView<RaceAdminController> {
                     onPressed: () => Get.toNamed('/create-race'),
                   ),
                 ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: _buildHeaderButton(
+                    'Promotion',
+                    onPressed: () => Get.toNamed('/promotion'),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 32),
-            
+
             // Header Text & Icon
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
                   'All Racing',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: AppColors.textBlack),
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textBlack,
+                  ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.notifications_none, color: AppColors.primaryRed),
+                  icon: const Icon(
+                    Icons.notifications_none,
+                    color: AppColors.primaryRed,
+                  ),
                   onPressed: () {
                     Get.toNamed('/send-notification');
                   },
@@ -60,52 +74,79 @@ class RaceAdminView extends GetView<RaceAdminController> {
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Table Header
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              decoration: const BoxDecoration(
-                color: AppColors.headerPink,
-              ),
+              decoration: const BoxDecoration(color: AppColors.headerPink),
               child: Row(
                 children: [
                   Expanded(
-                    child: Text('Racing', style: TextStyle(color: AppColors.textBlack.withOpacity(0.7))),
+                    child: Text(
+                      'Racing',
+                      style: TextStyle(
+                        color: AppColors.textBlack.withValues(alpha: 0.7),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     width: 100,
-                    child: Text('Logo', style: TextStyle(color: AppColors.textBlack.withOpacity(0.7)), textAlign: TextAlign.center),
+                    child: Text(
+                      'Logo',
+                      style: TextStyle(
+                        color: AppColors.textBlack.withValues(alpha: 0.7),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   const SizedBox(width: 80),
                   const SizedBox(
                     width: 48,
                     child: Align(
                       alignment: Alignment.centerRight,
-                      child: Icon(Icons.more_vert, size: 20, color: AppColors.textBlack),
+                      child: Icon(
+                        Icons.more_vert,
+                        size: 20,
+                        color: AppColors.textBlack,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            
+
             // Table Body
             Obx(() {
               if (controller.isLoading.value) {
                 return const Padding(
                   padding: EdgeInsets.all(48.0),
-                  child: Center(child: CircularProgressIndicator(color: AppColors.primaryRed)),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryRed,
+                    ),
+                  ),
                 );
               }
               if (controller.errorMessage.isNotEmpty) {
                 return Padding(
                   padding: const EdgeInsets.all(24.0),
-                  child: Center(child: Text(controller.errorMessage.value, style: const TextStyle(color: AppColors.primaryRed))),
+                  child: Center(
+                    child: Text(
+                      controller.errorMessage.value,
+                      style: const TextStyle(color: AppColors.primaryRed),
+                    ),
+                  ),
                 );
               }
               if (controller.rxRaces.isEmpty) {
                 return const Padding(
                   padding: EdgeInsets.all(24.0),
-                  child: Center(child: Text('No races found.', style: TextStyle(color: AppColors.textBlack))),
+                  child: Center(
+                    child: Text(
+                      'No races found.',
+                      style: TextStyle(color: AppColors.textBlack),
+                    ),
+                  ),
                 );
               }
               return ListView.builder(
@@ -116,25 +157,39 @@ class RaceAdminView extends GetView<RaceAdminController> {
                   final race = controller.rxRaces[index];
                   final isEven = index % 2 == 0;
                   return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
                     color: isEven ? AppColors.rowGrey : AppColors.rowWhite,
                     child: Row(
                       children: [
                         Expanded(
-                          child: Text(race.name ?? 'Unknown', style: const TextStyle(color: AppColors.textBlack)),
+                          child: Text(
+                            race.name ?? 'Unknown',
+                            style: const TextStyle(color: AppColors.textBlack),
+                          ),
                         ),
                         SizedBox(
                           width: 100,
                           child: Center(
-                            child: (race.imageLogo != null && race.imageLogo!.isNotEmpty)
+                            child:
+                                (race.imageLogo != null &&
+                                    race.imageLogo!.isNotEmpty)
                                 ? Image.network(
                                     race.imageLogo!,
                                     height: 30,
                                     width: 50,
                                     fit: BoxFit.contain,
-                                    errorBuilder: (_, __, ___) => const Icon(Icons.image_not_supported, color: AppColors.iconGrey),
+                                    errorBuilder: (_, _, _) => const Icon(
+                                      Icons.image_not_supported,
+                                      color: AppColors.iconGrey,
+                                    ),
                                   )
-                                : const Icon(Icons.image, color: AppColors.iconGrey),
+                                : const Icon(
+                                    Icons.image,
+                                    color: AppColors.iconGrey,
+                                  ),
                           ),
                         ),
                         const SizedBox(width: 80),
@@ -143,7 +198,11 @@ class RaceAdminView extends GetView<RaceAdminController> {
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: IconButton(
-                              icon: const Icon(Icons.more_vert, size: 20, color: AppColors.textBlack),
+                              icon: const Icon(
+                                Icons.more_vert,
+                                size: 20,
+                                color: AppColors.textBlack,
+                              ),
                               onPressed: () {
                                 _showActionDialog(context, race);
                               },
@@ -169,12 +228,13 @@ class RaceAdminView extends GetView<RaceAdminController> {
         backgroundColor: AppColors.primaryRed,
         foregroundColor: AppColors.rowWhite,
         padding: const EdgeInsets.symmetric(vertical: 20),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         elevation: 0,
       ),
-      child: Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+      ),
     );
   }
 
@@ -200,7 +260,9 @@ class RaceAdminView extends GetView<RaceAdminController> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryRed,
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                   onPressed: () {
                     Get.back();
@@ -208,7 +270,10 @@ class RaceAdminView extends GetView<RaceAdminController> {
                       controller.deleteSeries(race.id!);
                     }
                   },
-                  child: const Text('Delete Series', style: TextStyle(color: AppColors.rowWhite, fontSize: 16)),
+                  child: const Text(
+                    'Delete Series',
+                    style: TextStyle(color: AppColors.rowWhite, fontSize: 16),
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
@@ -218,13 +283,18 @@ class RaceAdminView extends GetView<RaceAdminController> {
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     side: const BorderSide(color: AppColors.primaryRed),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                   onPressed: () {
                     Get.back();
                     Get.toNamed('/all-events', arguments: race);
                   },
-                  child: const Text('All Event', style: TextStyle(color: AppColors.primaryRed, fontSize: 16)),
+                  child: const Text(
+                    'All Event',
+                    style: TextStyle(color: AppColors.primaryRed, fontSize: 16),
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
@@ -234,13 +304,18 @@ class RaceAdminView extends GetView<RaceAdminController> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryRed,
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                   onPressed: () {
                     Get.back();
                     Get.toNamed('/update-race', arguments: race);
                   },
-                  child: const Text('Update Series', style: TextStyle(color: AppColors.rowWhite, fontSize: 16)),
+                  child: const Text(
+                    'Update Series',
+                    style: TextStyle(color: AppColors.rowWhite, fontSize: 16),
+                  ),
                 ),
               ),
             ],

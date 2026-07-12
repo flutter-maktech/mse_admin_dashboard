@@ -17,16 +17,14 @@ class AllEventsController extends GetxController {
 
   void addEvent(EventModel event) {
     rxEvents.add(event);
-    if (race.events == null) {
-      race.events = [];
-    }
+    race.events ??= [];
     race.events!.add(event);
   }
 
   String formatTime(String? isoString) {
     if (isoString == null || isoString.isEmpty) return 'N/A';
     try {
-      final date = DateTime.parse(isoString);
+      final date = DateTime.parse(isoString).toLocal();
       return DateFormat('hh:mm a').format(date);
     } catch (e) {
       return 'Invalid Time';
@@ -36,7 +34,7 @@ class AllEventsController extends GetxController {
   String formatDate(String? isoString) {
     if (isoString == null || isoString.isEmpty) return 'N/A';
     try {
-      final date = DateTime.parse(isoString);
+      final date = DateTime.parse(isoString).toLocal();
       return DateFormat('dd/MM/yyyy').format(date);
     } catch (e) {
       return 'Invalid Date';
@@ -48,7 +46,11 @@ class AllEventsController extends GetxController {
       await Get.find<ApiProvider>().deleteEvent(id);
       rxEvents.removeWhere((e) => e.id == id);
       race.events?.removeWhere((e) => e.id == id);
-      Get.snackbar('Success', 'Event deleted successfully', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Success',
+        'Event deleted successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } catch (e) {
       Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
     }
@@ -59,7 +61,7 @@ class AllEventsController extends GetxController {
     if (index != -1) {
       rxEvents[index] = updatedEvent;
     }
-    
+
     if (race.events != null) {
       final raceIndex = race.events!.indexWhere((e) => e.id == updatedEvent.id);
       if (raceIndex != -1) {

@@ -19,64 +19,71 @@ import '../modules/create_race/bindings/create_race_binding.dart';
 import '../modules/create_race/views/create_race_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/promotion/bindings/promotion_binding.dart';
+import '../modules/promotion/views/promotion_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
+  static const initial = Routes.login;
 
   static final routes = [
     GetPage(
-      name: _Paths.RACE_ADMIN,
+      name: _Paths.raceAdmin,
       page: () => const RaceAdminView(),
       binding: RaceAdminBinding(),
     ),
     GetPage(
-      name: _Paths.UPDATE_RACE,
+      name: _Paths.updateRace,
       page: () => const UpdateRaceView(),
       binding: UpdateRaceBinding(),
     ),
     GetPage(
-      name: _Paths.ALL_EVENTS,
+      name: _Paths.allEvents,
       page: () => const AllEventsView(),
       binding: AllEventsBinding(),
     ),
     GetPage(
-      name: _Paths.CREATE_EVENT,
+      name: _Paths.createEvent,
       page: () => const CreateEventView(),
       binding: CreateEventBinding(),
     ),
     GetPage(
-      name: _Paths.UPDATE_EVENT,
+      name: _Paths.updateEvent,
       page: () => const UpdateEventView(),
       binding: UpdateEventBinding(),
     ),
     GetPage(
-      name: _Paths.SEND_NOTIFICATION,
+      name: _Paths.sendNotification,
       page: () => const SendNotificationView(),
       binding: SendNotificationBinding(),
     ),
     GetPage(
-      name: _Paths.RACE_REQUESTS,
+      name: _Paths.raceRequests,
       page: () => const RaceRequestsView(),
       binding: RaceRequestsBinding(),
     ),
     GetPage(
-      name: _Paths.RACE_REPORTS,
+      name: _Paths.raceReports,
       page: () => const RaceReportsView(),
       binding: RaceReportsBinding(),
     ),
     GetPage(
-      name: _Paths.CREATE_RACE,
+      name: _Paths.createRace,
       page: () => const CreateRaceView(),
       binding: CreateRaceBinding(),
     ),
     GetPage(
-      name: _Paths.LOGIN,
+      name: _Paths.login,
       page: () => const LoginView(),
       binding: LoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.promotion,
+      page: () => const PromotionView(),
+      binding: PromotionBinding(),
     ),
   ];
 }

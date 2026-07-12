@@ -7,11 +7,11 @@ import '../../all_events/controllers/all_events_controller.dart';
 
 class UpdateEventController extends GetxController {
   final ApiProvider apiProvider;
-  
+
   UpdateEventController({required this.apiProvider});
 
   late EventModel event;
-  
+
   final tvChannelController = TextEditingController();
   final radioChannelController = TextEditingController();
   final locationController = TextEditingController();
@@ -25,16 +25,19 @@ class UpdateEventController extends GetxController {
   void onInit() {
     super.onInit();
     event = Get.arguments as EventModel;
-    
+
     tvChannelController.text = event.tvBroadcastChanel ?? '';
     radioChannelController.text = event.radioBroadcastChanel ?? '';
     locationController.text = event.location ?? '';
-    
+
     if (event.startedAt != null && event.startedAt!.isNotEmpty) {
       try {
-        final parsedDate = DateTime.parse(event.startedAt!);
+        final parsedDate = DateTime.parse(event.startedAt!).toLocal();
         dateController.text = DateFormat('dd/MM/yyyy').format(parsedDate);
-        selectedTime = TimeOfDay(hour: parsedDate.hour, minute: parsedDate.minute);
+        selectedTime = TimeOfDay(
+          hour: parsedDate.hour,
+          minute: parsedDate.minute,
+        );
         // Getting context for formatting is tricky here, so we format manually or let view handle it.
         // We will format to a generic AM/PM string initially.
         timeController.text = DateFormat('hh:mm a').format(parsedDate);
@@ -73,22 +76,37 @@ class UpdateEventController extends GetxController {
     );
     if (pickedTime != null) {
       selectedTime = pickedTime;
-      timeController.text = pickedTime.format(context);
+      if (context.mounted) {
+        timeController.text = pickedTime.format(context);
+      }
     }
   }
 
   void updateEvent() async {
-    if (locationController.text.isEmpty || dateController.text.isEmpty || timeController.text.isEmpty || selectedTime == null) {
-      Get.snackbar('Error', 'Location, Date, and Time are required', snackPosition: SnackPosition.BOTTOM);
+    if (locationController.text.isEmpty ||
+        dateController.text.isEmpty ||
+        timeController.text.isEmpty ||
+        selectedTime == null) {
+      Get.snackbar(
+        'Error',
+        'Location, Date, and Time are required',
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return;
     }
-    
+
     try {
       isLoading.value = true;
 
       // Parse date and time into ISO 8601
       final datePart = DateFormat('dd/MM/yyyy').parse(dateController.text);
-      final dateTime = DateTime(datePart.year, datePart.month, datePart.day, selectedTime!.hour, selectedTime!.minute);
+      final dateTime = DateTime(
+        datePart.year,
+        datePart.month,
+        datePart.day,
+        selectedTime!.hour,
+        selectedTime!.minute,
+      );
 
       final data = {
         'race_id': event.raceId,
@@ -97,15 +115,19 @@ class UpdateEventController extends GetxController {
         'location': locationController.text,
         'started_at': dateTime.toUtc().toIso8601String(),
       };
-      
+
       final updatedEvent = await apiProvider.updateEvent(event.id!, data);
-      
-      Get.snackbar('Success', 'Event updated successfully', snackPosition: SnackPosition.BOTTOM);
-      
+
+      Get.snackbar(
+        'Success',
+        'Event updated successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+
       if (Get.isRegistered<AllEventsController>()) {
         Get.find<AllEventsController>().updateLocalEvent(updatedEvent);
       }
-      
+
       Future.delayed(const Duration(milliseconds: 1500), () {
         Get.back(); // Go back to All Events
       });

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
+import 'package:get_storage/get_storage.dart';
+import 'app/data/providers/api_provider.dart';
 import 'app/routes/app_pages.dart';
 
-void main() {
-  runApp(
-    MyApp()
-  );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,9 +17,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "Application",
-      initialRoute: AppPages.INITIAL,
+      initialRoute: AppPages.initial,
       debugShowCheckedModeBanner: false,
       getPages: AppPages.routes,
+      initialBinding: BindingsBuilder(() {
+        Get.put<ApiProvider>(ApiProvider(), permanent: true);
+      }),
     );
   }
 }

@@ -30,13 +30,16 @@ class SendNotificationView extends GetView<SendNotificationController> {
                     style: TextStyle(fontSize: 24, color: AppColors.textBlack),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.grid_view, color: AppColors.primaryRed),
+                    icon: const Icon(
+                      Icons.grid_view,
+                      color: AppColors.primaryRed,
+                    ),
                     onPressed: () => Get.back(),
                   ),
                 ],
               ),
               const SizedBox(height: 32),
-              
+
               const Text(
                 'Message',
                 style: TextStyle(fontSize: 14, color: AppColors.textBlack),
@@ -48,31 +51,49 @@ class SendNotificationView extends GetView<SendNotificationController> {
                   filled: true,
                   fillColor: AppColors.rowWhite,
                   hintText: 'write a notification body..',
-                  hintStyle: TextStyle(color: AppColors.textBlack.withOpacity(0.5)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  hintStyle: TextStyle(
+                    color: AppColors.textBlack.withValues(alpha: 0.5),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4),
                     borderSide: BorderSide.none,
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 40),
-              Obx(() => SizedBox(
-                width: 200,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryRed,
-                    foregroundColor: AppColors.rowWhite,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+              Obx(
+                () => SizedBox(
+                  width: 200,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryRed,
+                      foregroundColor: AppColors.rowWhite,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    onPressed: controller.isLoading.value
+                        ? null
+                        : controller.sendNotification,
+                    child: controller.isLoading.value
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: AppColors.rowWhite,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : const Text('Send', style: TextStyle(fontSize: 16)),
                   ),
-                  onPressed: controller.isLoading.value ? null : controller.sendNotification,
-                  child: controller.isLoading.value
-                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppColors.rowWhite, strokeWidth: 2))
-                      : const Text('Send', style: TextStyle(fontSize: 16)),
                 ),
-              )),
+              ),
             ],
           ),
         ),

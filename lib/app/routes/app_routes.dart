@@ -3,28 +3,30 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   Routes._();
-  static const RACE_ADMIN = _Paths.RACE_ADMIN;
-  static const UPDATE_RACE = _Paths.UPDATE_RACE;
-  static const ALL_EVENTS = _Paths.ALL_EVENTS;
-  static const CREATE_EVENT = _Paths.CREATE_EVENT;
-  static const UPDATE_EVENT = _Paths.UPDATE_EVENT;
-  static const SEND_NOTIFICATION = _Paths.SEND_NOTIFICATION;
-  static const RACE_REQUESTS = _Paths.RACE_REQUESTS;
-  static const RACE_REPORTS = _Paths.RACE_REPORTS;
-  static const CREATE_RACE = _Paths.CREATE_RACE;
-  static const LOGIN = _Paths.LOGIN;
+  static const raceAdmin = _Paths.raceAdmin;
+  static const updateRace = _Paths.updateRace;
+  static const allEvents = _Paths.allEvents;
+  static const createEvent = _Paths.createEvent;
+  static const updateEvent = _Paths.updateEvent;
+  static const sendNotification = _Paths.sendNotification;
+  static const raceRequests = _Paths.raceRequests;
+  static const raceReports = _Paths.raceReports;
+  static const createRace = _Paths.createRace;
+  static const login = _Paths.login;
+  static const promotion = _Paths.promotion;
 }
 
 abstract class _Paths {
   _Paths._();
-  static const RACE_ADMIN = '/race-admin';
-  static const UPDATE_RACE = '/update-race';
-  static const ALL_EVENTS = '/all-events';
-  static const CREATE_EVENT = '/create-event';
-  static const UPDATE_EVENT = '/update-event';
-  static const SEND_NOTIFICATION = '/send-notification';
-  static const RACE_REQUESTS = '/race-requests';
-  static const RACE_REPORTS = '/race-reports';
-  static const CREATE_RACE = '/create-race';
-  static const LOGIN = '/login';
+  static const raceAdmin = '/race-admin';
+  static const updateRace = '/update-race';
+  static const allEvents = '/all-events';
+  static const createEvent = '/create-event';
+  static const updateEvent = '/update-event';
+  static const sendNotification = '/send-notification';
+  static const raceRequests = '/race-requests';
+  static const raceReports = '/race-reports';
+  static const createRace = '/create-race';
+  static const login = '/login';
+  static const promotion = '/promotion';
 }

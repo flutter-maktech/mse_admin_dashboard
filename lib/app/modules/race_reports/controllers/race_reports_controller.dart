@@ -5,7 +5,7 @@ import '../../../data/providers/api_provider.dart';
 
 class RaceReportsController extends GetxController {
   final ApiProvider apiProvider;
-  
+
   RaceReportsController({required this.apiProvider});
 
   final rxReports = <RaceReportModel>[].obs;
@@ -26,7 +26,9 @@ class RaceReportsController extends GetxController {
       // Sort by created_at descending (newest first)
       reports.sort((a, b) {
         if (a.createdAt == null || b.createdAt == null) return 0;
-        return DateTime.parse(b.createdAt!).compareTo(DateTime.parse(a.createdAt!));
+        return DateTime.parse(
+          b.createdAt!,
+        ).compareTo(DateTime.parse(a.createdAt!));
       });
       rxReports.assignAll(reports);
     } catch (e) {
@@ -39,7 +41,7 @@ class RaceReportsController extends GetxController {
   String formatDate(String? isoString) {
     if (isoString == null || isoString.isEmpty) return 'N/A';
     try {
-      final date = DateTime.parse(isoString);
+      final date = DateTime.parse(isoString).toLocal();
       return DateFormat('dd MMM yyyy, hh:mm a').format(date);
     } catch (e) {
       return 'Invalid Date';
