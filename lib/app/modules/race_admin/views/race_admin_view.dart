@@ -19,7 +19,12 @@ class RaceAdminView extends GetView<RaceAdminController> {
             // Top Action Buttons
             Row(
               children: [
-                Expanded(child: _buildHeaderButton('All Report')),
+                Expanded(
+                  child: _buildHeaderButton(
+                    'All Report',
+                    onPressed: () => Get.toNamed('/race-reports'),
+                  ),
+                ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: _buildHeaderButton(
@@ -28,7 +33,12 @@ class RaceAdminView extends GetView<RaceAdminController> {
                   ),
                 ),
                 const SizedBox(width: 16),
-                Expanded(child: _buildHeaderButton('+ Create a Race')),
+                Expanded(
+                  child: _buildHeaderButton(
+                    '+ Create a Race',
+                    onPressed: () => Get.toNamed('/create-race'),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 32),

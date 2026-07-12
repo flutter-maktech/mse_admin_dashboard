@@ -16,6 +16,10 @@ import '../modules/send_notification/bindings/send_notification_binding.dart';
 import '../modules/send_notification/views/send_notification_view.dart';
 import '../modules/race_requests/bindings/race_requests_binding.dart';
 import '../modules/race_requests/views/race_requests_view.dart';
+import '../modules/race_reports/bindings/race_reports_binding.dart';
+import '../modules/race_reports/views/race_reports_view.dart';
+import '../modules/create_race/bindings/create_race_binding.dart';
+import '../modules/create_race/views/create_race_view.dart';
 
 part 'app_routes.dart';
 
@@ -64,6 +68,16 @@ class AppPages {
       name: _Paths.RACE_REQUESTS,
       page: () => const RaceRequestsView(),
       binding: RaceRequestsBinding(),
+    ),
+    GetPage(
+      name: _Paths.RACE_REPORTS,
+      page: () => const RaceReportsView(),
+      binding: RaceReportsBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_RACE,
+      page: () => const CreateRaceView(),
+      binding: CreateRaceBinding(),
     ),
   ];
 }

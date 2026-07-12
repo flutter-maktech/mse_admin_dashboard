@@ -3,6 +3,7 @@ import '../../constants/app_constants.dart';
 import '../models/event_model.dart';
 import '../models/race_model.dart';
 import '../models/race_request_model.dart';
+import '../models/race_report_model.dart';
 
 class ApiProvider extends GetConnect {
   @override
@@ -36,6 +37,14 @@ class ApiProvider extends GetConnect {
     if (response.status.hasError) {
       return Future.error(response.body?['detail'] ?? response.statusText ?? 'Failed to update race');
     }
+  }
+
+  Future<RaceModel> createRace(Map<String, dynamic> data) async {
+    final response = await post('/race/', data);
+    if (response.status.hasError) {
+      return Future.error(response.body?['detail'] ?? response.statusText ?? 'Failed to create race');
+    }
+    return RaceModel.fromJson(response.body);
   }
 
   Future<EventModel> createEvent(Map<String, dynamic> data) async {
@@ -79,6 +88,19 @@ class ApiProvider extends GetConnect {
     } else {
       if (response.body is List) {
         return (response.body as List).map((e) => RaceRequestModel.fromJson(e)).toList();
+      } else {
+        return Future.error('Invalid data format');
+      }
+    }
+  }
+
+  Future<List<RaceReportModel>> getRaceReports() async {
+    final response = await get('/report/');
+    if (response.status.hasError) {
+      return Future.error(response.statusText ?? 'Failed to load reports');
+    } else {
+      if (response.body is List) {
+        return (response.body as List).map((e) => RaceReportModel.fromJson(e)).toList();
       } else {
         return Future.error('Invalid data format');
       }
