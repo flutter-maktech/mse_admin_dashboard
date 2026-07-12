@@ -1,3 +1,5 @@
+import 'event_model.dart';
+
 class RaceModel {
   int? id;
   String? name;
@@ -5,6 +7,7 @@ class RaceModel {
   int? serialNumber;
   String? createdAt;
   String? updatedAt;
+  List<EventModel>? events;
 
   RaceModel({
     this.id,
@@ -13,6 +16,7 @@ class RaceModel {
     this.serialNumber,
     this.createdAt,
     this.updatedAt,
+    this.events,
   });
 
   RaceModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +26,12 @@ class RaceModel {
     serialNumber = json['serial_number'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    if (json['events'] != null) {
+      events = <EventModel>[];
+      json['events'].forEach((v) {
+        events!.add(EventModel.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +42,9 @@ class RaceModel {
     data['serial_number'] = serialNumber;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    if (events != null) {
+      data['events'] = events!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

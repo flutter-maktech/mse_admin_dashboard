@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/race_admin_controller.dart';
 import '../../../constants/app_colors.dart';
+import '../../../data/models/race_model.dart';
 
 class RaceAdminView extends GetView<RaceAdminController> {
   const RaceAdminView({Key? key}) : super(key: key);
@@ -124,21 +125,11 @@ class RaceAdminView extends GetView<RaceAdminController> {
                           width: 48,
                           child: Align(
                             alignment: Alignment.centerRight,
-                            child: PopupMenuButton<String>(
-                              child: const Icon(Icons.more_vert, size: 20, color: AppColors.textBlack),
-                              onSelected: (value) {
-                                // Handle action
+                            child: IconButton(
+                              icon: const Icon(Icons.more_vert, size: 20, color: AppColors.textBlack),
+                              onPressed: () {
+                                _showActionDialog(context, race);
                               },
-                              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                                const PopupMenuItem<String>(
-                                  value: 'edit',
-                                  child: Text('Edit'),
-                                ),
-                                const PopupMenuItem<String>(
-                                  value: 'delete',
-                                  child: Text('Delete'),
-                                ),
-                              ],
                             ),
                           ),
                         ),
@@ -167,6 +158,78 @@ class RaceAdminView extends GetView<RaceAdminController> {
         elevation: 0,
       ),
       child: Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+    );
+  }
+
+  void _showActionDialog(BuildContext context, RaceModel race) {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          width: 400,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'What is you want to do?',
+                style: TextStyle(fontSize: 18, color: AppColors.textBlack),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryRed,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  ),
+                  onPressed: () {
+                    Get.back();
+                    if (race.id != null) {
+                      controller.deleteSeries(race.id!);
+                    }
+                  },
+                  child: const Text('Delete Series', style: TextStyle(color: AppColors.rowWhite, fontSize: 16)),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    side: const BorderSide(color: AppColors.primaryRed),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  ),
+                  onPressed: () {
+                    Get.back();
+                    Get.toNamed('/all-events', arguments: race.events ?? []);
+                  },
+                  child: const Text('All Event', style: TextStyle(color: AppColors.primaryRed, fontSize: 16)),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryRed,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  ),
+                  onPressed: () {
+                    Get.back();
+                    Get.toNamed('/update-race', arguments: race);
+                  },
+                  child: const Text('Update Series', style: TextStyle(color: AppColors.rowWhite, fontSize: 16)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
