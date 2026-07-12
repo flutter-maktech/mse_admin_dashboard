@@ -205,7 +205,7 @@ class RaceAdminView extends GetView<RaceAdminController> {
                   ),
                   onPressed: () {
                     Get.back();
-                    Get.toNamed('/all-events', arguments: race.events ?? []);
+                    Get.toNamed('/all-events', arguments: race);
                   },
                   child: const Text('All Event', style: TextStyle(color: AppColors.primaryRed, fontSize: 16)),
                 ),

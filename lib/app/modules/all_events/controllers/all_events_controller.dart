@@ -1,15 +1,25 @@
 import 'package:get/get.dart';
 import '../../../data/models/event_model.dart';
+import '../../../data/models/race_model.dart';
 import 'package:intl/intl.dart';
 
 class AllEventsController extends GetxController {
   final rxEvents = <EventModel>[].obs;
+  late RaceModel race;
 
   @override
   void onInit() {
     super.onInit();
-    final events = Get.arguments as List<EventModel>? ?? [];
-    rxEvents.assignAll(events);
+    race = Get.arguments as RaceModel;
+    rxEvents.assignAll(race.events ?? []);
+  }
+
+  void addEvent(EventModel event) {
+    rxEvents.add(event);
+    if (race.events == null) {
+      race.events = [];
+    }
+    race.events!.add(event);
   }
 
   String formatTime(String? isoString) {

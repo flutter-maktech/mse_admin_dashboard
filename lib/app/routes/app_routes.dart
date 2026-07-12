@@ -7,6 +7,7 @@ abstract class Routes {
   static const RACE_ADMIN = _Paths.RACE_ADMIN;
   static const UPDATE_RACE = _Paths.UPDATE_RACE;
   static const ALL_EVENTS = _Paths.ALL_EVENTS;
+  static const CREATE_EVENT = _Paths.CREATE_EVENT;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const RACE_ADMIN = '/race-admin';
   static const UPDATE_RACE = '/update-race';
   static const ALL_EVENTS = '/all-events';
+  static const CREATE_EVENT = '/create-event';
 }

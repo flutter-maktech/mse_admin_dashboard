@@ -46,7 +46,7 @@ class AllEventsView extends GetView<AllEventsController> {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                         ),
                         onPressed: () {
-                          // Handle create event
+                          Get.toNamed('/create-event', arguments: controller.race.id);
                         },
                         icon: const Icon(Icons.add, size: 18),
                         label: const Text('+ Create Event'),

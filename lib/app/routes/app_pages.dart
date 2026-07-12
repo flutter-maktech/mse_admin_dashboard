@@ -8,6 +8,8 @@ import '../modules/update_race/bindings/update_race_binding.dart';
 import '../modules/update_race/views/update_race_view.dart';
 import '../modules/all_events/bindings/all_events_binding.dart';
 import '../modules/all_events/views/all_events_view.dart';
+import '../modules/create_event/bindings/create_event_binding.dart';
+import '../modules/create_event/views/create_event_view.dart';
 
 part 'app_routes.dart';
 
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.ALL_EVENTS,
       page: () => const AllEventsView(),
       binding: AllEventsBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_EVENT,
+      page: () => const CreateEventView(),
+      binding: CreateEventBinding(),
     ),
   ];
 }

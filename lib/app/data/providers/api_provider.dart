@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../../constants/app_constants.dart';
+import '../models/event_model.dart';
 import '../models/race_model.dart';
 
 class ApiProvider extends GetConnect {
@@ -34,5 +35,13 @@ class ApiProvider extends GetConnect {
     if (response.status.hasError) {
       return Future.error(response.body?['detail'] ?? response.statusText ?? 'Failed to update race');
     }
+  }
+
+  Future<EventModel> createEvent(Map<String, dynamic> data) async {
+    final response = await post('/events/', data);
+    if (response.status.hasError) {
+      return Future.error(response.body?['detail'] ?? response.statusText ?? 'Failed to create event');
+    }
+    return EventModel.fromJson(response.body);
   }
 }
