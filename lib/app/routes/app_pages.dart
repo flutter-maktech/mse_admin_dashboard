@@ -21,6 +21,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/promotion/bindings/promotion_binding.dart';
 import '../modules/promotion/views/promotion_view.dart';
+import '../modules/promotion/views/create_promotion_view.dart';
+import '../modules/promotion/views/update_promotion_view.dart';
 
 part 'app_routes.dart';
 
@@ -83,6 +85,16 @@ class AppPages {
     GetPage(
       name: _Paths.promotion,
       page: () => const PromotionView(),
+      binding: PromotionBinding(),
+    ),
+    GetPage(
+      name: _Paths.createPromotion,
+      page: () => const CreatePromotionView(),
+      binding: PromotionBinding(),
+    ),
+    GetPage(
+      name: _Paths.updatePromotion,
+      page: () => const UpdatePromotionView(),
       binding: PromotionBinding(),
     ),
   ];

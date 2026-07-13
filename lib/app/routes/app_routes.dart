@@ -14,6 +14,8 @@ abstract class Routes {
   static const createRace = _Paths.createRace;
   static const login = _Paths.login;
   static const promotion = _Paths.promotion;
+  static const createPromotion = _Paths.createPromotion;
+  static const updatePromotion = _Paths.updatePromotion;
 }
 
 abstract class _Paths {
@@ -29,4 +31,6 @@ abstract class _Paths {
   static const createRace = '/create-race';
   static const login = '/login';
   static const promotion = '/promotion';
+  static const createPromotion = '/create-promotion';
+  static const updatePromotion = '/update-promotion';
 }
