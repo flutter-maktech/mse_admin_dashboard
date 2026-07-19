@@ -1,6 +1,6 @@
 {
-    "name": "mse_dashboard",
-    "short_name": "mse_dashboard",
+    "name": "MSE",
+    "short_name": "MSE",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

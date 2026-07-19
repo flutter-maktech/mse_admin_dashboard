@@ -5,6 +5,7 @@ import '../models/event_model.dart';
 import '../models/race_model.dart';
 import '../models/race_request_model.dart';
 import '../models/race_report_model.dart';
+import '../models/promotion_model.dart';
 
 class ApiProvider extends GetConnect {
   final _storage = GetStorage();
@@ -16,6 +17,11 @@ class ApiProvider extends GetConnect {
       final token = _storage.read<String>('access_token');
       if (token != null && token.isNotEmpty) {
         request.headers['Authorization'] = 'Bearer $token';
+      }
+      if (request.method.toLowerCase() == 'delete') {
+        request.headers['accept'] = '*/*';
+      } else {
+        request.headers['accept'] = 'application/json';
       }
       return request;
     });
@@ -151,6 +157,55 @@ class ApiProvider extends GetConnect {
       } else {
         return Future.error('Invalid data format');
       }
+    }
+  }
+
+  Future<List<PromotionModel>> getPromotions() async {
+    final response = await get('/dropbox/');
+    if (response.status.hasError) {
+      return Future.error(response.statusText ?? 'Failed to load promotions');
+    } else {
+      if (response.body is List) {
+        return (response.body as List)
+            .map((item) => PromotionModel.fromJson(item))
+            .toList();
+      }
+      return [];
+    }
+  }
+
+  Future<PromotionModel> createPromotion(FormData form) async {
+    final response = await post('/dropbox/', form);
+    if (response.status.hasError) {
+      return Future.error(
+        response.body?['detail'] ??
+            response.statusText ??
+            'Failed to create promotion',
+      );
+    }
+    return PromotionModel.fromJson(response.body);
+  }
+
+  Future<PromotionModel> updatePromotion(int id, FormData form) async {
+    final response = await put('/dropbox/$id', form);
+    if (response.status.hasError) {
+      return Future.error(
+        response.body?['detail'] ??
+            response.statusText ??
+            'Failed to update promotion',
+      );
+    }
+    return PromotionModel.fromJson(response.body);
+  }
+
+  Future<void> deletePromotion(int id) async {
+    final response = await delete('/dropbox/$id');
+    if (response.status.hasError) {
+      return Future.error(
+        response.body?['detail'] ??
+            response.statusText ??
+            'Failed to delete promotion',
+      );
     }
   }
 }

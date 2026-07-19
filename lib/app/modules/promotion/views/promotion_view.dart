@@ -91,16 +91,16 @@ class PromotionView extends GetView<PromotionController> {
                             ),
                             ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primaryRed,
-                                foregroundColor: AppColors.rowWhite,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 24,
-                                  vertical: 16,
+                                  backgroundColor: AppColors.primaryRed,
+                                  foregroundColor: AppColors.rowWhite,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 24,
+                                    vertical: 16,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                              ),
                               onPressed: () {
                                 controller.clearFields();
                                 Get.toNamed('/create-promotion');
@@ -114,6 +114,17 @@ class PromotionView extends GetView<PromotionController> {
 
                   // Table Body or Card Grid based on layout
                   Obx(() {
+                    if (controller.isLoading.value) {
+                      return const Padding(
+                        padding: EdgeInsets.all(48.0),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primaryRed,
+                          ),
+                        ),
+                      );
+                    }
+
                     if (controller.rxPromotions.isEmpty) {
                       return const Padding(
                         padding: EdgeInsets.all(24.0),
@@ -155,24 +166,24 @@ class PromotionView extends GetView<PromotionController> {
                                             fit: BoxFit.cover,
                                           )
                                         : (promotion.imageUrl != null &&
-                                              promotion.imageUrl!.isNotEmpty)
-                                        ? Image.network(
-                                            promotion.imageUrl!,
-                                            height: 60,
-                                            width: 80,
-                                            fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, error, stackTrace) =>
+                                                promotion.imageUrl!.isNotEmpty)
+                                            ? Image.network(
+                                                promotion.imageUrl!,
+                                                height: 60,
+                                                width: 80,
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (context, error,
+                                                        stackTrace) =>
                                                     const Icon(
-                                                      Icons.image_not_supported,
-                                                      color: AppColors.iconGrey,
-                                                    ),
-                                          )
-                                        : const Icon(
-                                            Icons.image,
-                                            color: AppColors.iconGrey,
-                                            size: 40,
-                                          ),
+                                                  Icons.image_not_supported,
+                                                  color: AppColors.iconGrey,
+                                                ),
+                                              )
+                                            : const Icon(
+                                                Icons.image,
+                                                color: AppColors.iconGrey,
+                                                size: 40,
+                                              ),
                                   ),
                                   const SizedBox(width: 12),
                                   Expanded(
@@ -207,8 +218,7 @@ class PromotionView extends GetView<PromotionController> {
                                           style: const TextStyle(
                                             color: AppColors.primaryRed,
                                             fontSize: 11,
-                                            decoration:
-                                                TextDecoration.underline,
+                                            decoration: TextDecoration.underline,
                                           ),
                                         ),
                                       ],
@@ -251,20 +261,18 @@ class PromotionView extends GetView<PromotionController> {
                                 child: Text(
                                   'Title',
                                   style: TextStyle(
-                                    color: AppColors.textBlack.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: AppColors.textBlack
+                                        .withValues(alpha: 0.7),
                                   ),
                                 ),
                               ),
                               Expanded(
                                 flex: 3,
                                 child: Text(
-                                  'Subtitle',
+                                  'Description',
                                   style: TextStyle(
-                                    color: AppColors.textBlack.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: AppColors.textBlack
+                                        .withValues(alpha: 0.7),
                                   ),
                                 ),
                               ),
@@ -273,9 +281,8 @@ class PromotionView extends GetView<PromotionController> {
                                 child: Text(
                                   'URL',
                                   style: TextStyle(
-                                    color: AppColors.textBlack.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: AppColors.textBlack
+                                        .withValues(alpha: 0.7),
                                   ),
                                 ),
                               ),
@@ -284,14 +291,15 @@ class PromotionView extends GetView<PromotionController> {
                                 child: Text(
                                   'Image',
                                   style: TextStyle(
-                                    color: AppColors.textBlack.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: AppColors.textBlack
+                                        .withValues(alpha: 0.7),
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
-                              const SizedBox(width: 48),
+                              const SizedBox(
+                                width: 48,
+                              ),
                             ],
                           ),
                         ),
@@ -360,30 +368,29 @@ class PromotionView extends GetView<PromotionController> {
                                               ),
                                             )
                                           : (promotion.imageUrl != null &&
-                                                promotion.imageUrl!.isNotEmpty)
-                                          ? ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
-                                              child: Image.network(
-                                                promotion.imageUrl!,
-                                                height: 40,
-                                                width: 60,
-                                                fit: BoxFit.cover,
-                                                errorBuilder:
-                                                    (
-                                                      context,
-                                                      error,
-                                                      stackTrace,
-                                                    ) => const Icon(
-                                                      Icons.image_not_supported,
+                                                  promotion.imageUrl!.isNotEmpty)
+                                              ? ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(4),
+                                                  child: Image.network(
+                                                    promotion.imageUrl!,
+                                                    height: 40,
+                                                    width: 60,
+                                                    fit: BoxFit.cover,
+                                                    errorBuilder: (context,
+                                                            error,
+                                                            stackTrace) =>
+                                                        const Icon(
+                                                      Icons
+                                                          .image_not_supported,
                                                       color: AppColors.iconGrey,
                                                     ),
-                                              ),
-                                            )
-                                          : const Icon(
-                                              Icons.image,
-                                              color: AppColors.iconGrey,
-                                            ),
+                                                  ),
+                                                )
+                                              : const Icon(
+                                                  Icons.image,
+                                                  color: AppColors.iconGrey,
+                                                ),
                                     ),
                                   ),
                                   SizedBox(

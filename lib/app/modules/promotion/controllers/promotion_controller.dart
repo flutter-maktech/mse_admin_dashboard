@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../data/models/promotion_model.dart';
+import '../../../data/providers/api_provider.dart';
 
 class PromotionController extends GetxController {
   late TextEditingController titleController;
-  late TextEditingController subtitleController;
+  late TextEditingController descriptionController;
   late TextEditingController urlController;
 
   final rxPromotions = <PromotionModel>[].obs;
@@ -19,47 +20,31 @@ class PromotionController extends GetxController {
   @override
   void onInit() {
     titleController = TextEditingController();
-    subtitleController = TextEditingController();
+    descriptionController = TextEditingController();
     urlController = TextEditingController();
-    _loadDummyPromotions();
+    fetchPromotions();
     super.onInit();
   }
 
-  void _loadDummyPromotions() {
-    rxPromotions.addAll([
-      PromotionModel(
-        id: 1,
-        title: 'Formula 1 Grand Prix Deal',
-        subtitle:
-            'Get 20% off on all early bird tickets for the next Grand Prix series.',
-        url: 'https://motorsporteasy.com/f1-deal',
-        imageUrl:
-            'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=500&auto=format&fit=crop&q=60',
-      ),
-      PromotionModel(
-        id: 2,
-        title: 'Offroad Championship Pass',
-        subtitle:
-            'Exclusive weekend passes with paddock access. Limited availability.',
-        url: 'https://motorsporteasy.com/offroad-pass',
-        imageUrl:
-            'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=500&auto=format&fit=crop&q=60',
-      ),
-      PromotionModel(
-        id: 3,
-        title: 'Karting League Registration',
-        subtitle:
-            'Sign up for the summer amateur karting league. Winners get cash prizes!',
-        url: 'https://motorsporteasy.com/karting-signup',
-        imageUrl:
-            'https://images.unsplash.com/photo-1562591176-a117072489f6?w=500&auto=format&fit=crop&q=60',
-      ),
-    ]);
+  Future<void> fetchPromotions() async {
+    try {
+      isLoading.value = true;
+      final promotions = await Get.find<ApiProvider>().getPromotions();
+      rxPromotions.assignAll(promotions);
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to load promotions: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   void clearFields() {
     titleController.clear();
-    subtitleController.clear();
+    descriptionController.clear();
     urlController.clear();
     imageBytes.value = null;
     imageName.value = '';
@@ -67,7 +52,7 @@ class PromotionController extends GetxController {
 
   void setFieldsForUpdate(PromotionModel promotion) {
     titleController.text = promotion.title ?? '';
-    subtitleController.text = promotion.subtitle ?? '';
+    descriptionController.text = promotion.subtitle ?? '';
     urlController.text = promotion.url ?? '';
     imageBytes.value = promotion.imageBytes;
     imageName.value = '';
@@ -97,13 +82,13 @@ class PromotionController extends GetxController {
 
   void createPromotion() async {
     final title = titleController.text.trim();
-    final subtitle = subtitleController.text.trim();
+    final descriptionText = descriptionController.text.trim();
     final url = urlController.text.trim();
 
-    if (title.isEmpty || subtitle.isEmpty || url.isEmpty) {
+    if (title.isEmpty || descriptionText.isEmpty || url.isEmpty) {
       Get.snackbar(
         'Error',
-        'Title, Subtitle, and Promotion URL are required',
+        'Title, Description, and Promotion URL are required',
         snackPosition: SnackPosition.BOTTOM,
       );
       return;
@@ -111,37 +96,36 @@ class PromotionController extends GetxController {
 
     try {
       isLoading.value = true;
-      // Simulate backend implementation delay
-      await Future.delayed(const Duration(milliseconds: 500));
 
-      final newId = rxPromotions.isEmpty
-          ? 1
-          : (rxPromotions
-                    .map((e) => e.id ?? 0)
-                    .reduce((a, b) => a > b ? a : b) +
-                1);
-      final newPromo = PromotionModel(
-        id: newId,
-        title: title,
-        subtitle: subtitle,
-        url: url,
-        imageBytes: imageBytes.value,
-      );
-      rxPromotions.add(newPromo);
+      final form = FormData({
+        'title': title,
+        'subtitle': '',
+        'description': descriptionText,
+        'url': url,
+        if (imageBytes.value != null && imageName.value.isNotEmpty)
+          'image': MultipartFile(
+            imageBytes.value!,
+            filename: imageName.value,
+          ),
+      });
+
+      await Get.find<ApiProvider>().createPromotion(form);
+
+      clearFields();
+      Get.back();
+      fetchPromotions();
 
       Get.snackbar(
         'Success',
-        'Promotion created successfully (Local Mock)',
+        'Promotion created successfully',
         snackPosition: SnackPosition.BOTTOM,
       );
-
-      clearFields();
-
-      Future.delayed(const Duration(milliseconds: 500), () {
-        Get.back();
-      });
     } catch (e) {
-      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } finally {
       isLoading.value = false;
     }
@@ -149,13 +133,13 @@ class PromotionController extends GetxController {
 
   void updatePromotion(int id) async {
     final title = titleController.text.trim();
-    final subtitle = subtitleController.text.trim();
+    final descriptionText = descriptionController.text.trim();
     final url = urlController.text.trim();
 
-    if (title.isEmpty || subtitle.isEmpty || url.isEmpty) {
+    if (title.isEmpty || descriptionText.isEmpty || url.isEmpty) {
       Get.snackbar(
         'Error',
-        'Title, Subtitle, and Promotion URL are required',
+        'Title, Description, and Promotion URL are required',
         snackPosition: SnackPosition.BOTTOM,
       );
       return;
@@ -163,54 +147,68 @@ class PromotionController extends GetxController {
 
     try {
       isLoading.value = true;
-      // Simulate backend implementation delay
-      await Future.delayed(const Duration(milliseconds: 500));
 
-      final index = rxPromotions.indexWhere((p) => p.id == id);
-      if (index != -1) {
-        final existingPromo = rxPromotions[index];
-        rxPromotions[index] = PromotionModel(
-          id: id,
-          title: title,
-          subtitle: subtitle,
-          url: url,
-          imageUrl: imageBytes.value == null ? existingPromo.imageUrl : null,
-          imageBytes: imageBytes.value,
-        );
-        rxPromotions.refresh();
+      final form = FormData({
+        'title': title,
+        'subtitle': '',
+        'description': descriptionText,
+        'url': url,
+        if (imageBytes.value != null && imageName.value.isNotEmpty)
+          'image': MultipartFile(
+            imageBytes.value!,
+            filename: imageName.value,
+          ),
+      });
 
-        Get.snackbar(
-          'Success',
-          'Promotion updated successfully (Local Mock)',
-          snackPosition: SnackPosition.BOTTOM,
-        );
+      await Get.find<ApiProvider>().updatePromotion(id, form);
 
-        clearFields();
+      clearFields();
+      Get.back();
+      fetchPromotions();
 
-        Future.delayed(const Duration(milliseconds: 500), () {
-          Get.back();
-        });
-      }
+      Get.snackbar(
+        'Success',
+        'Promotion updated successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } catch (e) {
-      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } finally {
       isLoading.value = false;
     }
   }
 
-  void deletePromotion(int id) {
-    rxPromotions.removeWhere((p) => p.id == id);
-    Get.snackbar(
-      'Success',
-      'Promotion deleted successfully (Local Mock)',
-      snackPosition: SnackPosition.BOTTOM,
-    );
+  void deletePromotion(int id) async {
+    try {
+      isLoading.value = true;
+      await Get.find<ApiProvider>().deletePromotion(id);
+
+      Get.snackbar(
+        'Success',
+        'Promotion deleted successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+
+      fetchPromotions();
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   @override
   void onClose() {
     titleController.dispose();
-    subtitleController.dispose();
+    descriptionController.dispose();
     urlController.dispose();
     super.onClose();
   }

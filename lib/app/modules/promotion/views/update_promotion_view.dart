@@ -62,11 +62,11 @@ class UpdatePromotionView extends GetView<PromotionController> {
 
                 const SizedBox(height: 24),
 
-                _buildLabel('Promotion Subtitle'),
+                _buildLabel('Promotion Description'),
                 const SizedBox(height: 8),
                 _buildTextField(
-                  controller.subtitleController,
-                  'Enter promotion subtitle..',
+                  controller.descriptionController,
+                  'Enter promotion description..',
                 ),
 
                 const SizedBox(height: 24),
