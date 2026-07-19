@@ -67,6 +67,7 @@ class UpdatePromotionView extends GetView<PromotionController> {
                 _buildTextField(
                   controller.descriptionController,
                   'Enter promotion description..',
+                  maxLines: 4,
                 ),
 
                 const SizedBox(height: 24),
@@ -246,10 +247,12 @@ class UpdatePromotionView extends GetView<PromotionController> {
 
   Widget _buildTextField(
     TextEditingController textController,
-    String hintText,
-  ) {
+    String hintText, {
+    int maxLines = 1,
+  }) {
     return TextField(
       controller: textController,
+      maxLines: maxLines,
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.rowWhite,

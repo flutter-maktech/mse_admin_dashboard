@@ -201,7 +201,7 @@ class PromotionView extends GetView<PromotionController> {
                                         ),
                                         const SizedBox(height: 4),
                                         Text(
-                                          promotion.subtitle ?? 'N/A',
+                                          _limitWords(promotion.subtitle),
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
@@ -334,7 +334,7 @@ class PromotionView extends GetView<PromotionController> {
                                   Expanded(
                                     flex: 3,
                                     child: Text(
-                                      promotion.subtitle ?? 'N/A',
+                                      _limitWords(promotion.subtitle),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
@@ -506,4 +506,11 @@ class PromotionView extends GetView<PromotionController> {
       ),
     );
   }
+}
+
+String _limitWords(String? text, {int maxWords = 7}) {
+  if (text == null || text.isEmpty) return 'N/A';
+  final words = text.trim().split(RegExp(r'\s+'));
+  if (words.length <= maxWords) return text;
+  return '${words.take(maxWords).join(' ')}...';
 }
