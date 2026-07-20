@@ -113,7 +113,7 @@ class UpdatePromotionController extends GetxController {
       await Get.find<ApiProvider>().updatePromotion(promotionId!, form);
 
       clearFields();
-      Get.back();
+      Navigator.pop(Get.context!);
 
       if (Get.isRegistered<PromotionController>()) {
         Get.find<PromotionController>().fetchPromotions();

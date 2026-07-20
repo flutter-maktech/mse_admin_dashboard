@@ -3,10 +3,6 @@ import 'package:get/get.dart';
 import '../controllers/promotion_controller.dart';
 import '../../../constants/app_colors.dart';
 import '../../../data/models/promotion_model.dart';
-import '../bindings/create_promotion_binding.dart';
-import '../bindings/update_promotion_binding.dart';
-import 'create_promotion_view.dart';
-import 'update_promotion_view.dart';
 
 class PromotionView extends GetView<PromotionController> {
   const PromotionView({super.key});
@@ -28,7 +24,7 @@ class PromotionView extends GetView<PromotionController> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               alignment: Alignment.center,
               child: InkWell(
-                onTap: () => Get.back(),
+                onTap: () => Navigator.pop(context),
                 child: const Text(
                   'Promotions',
                   style: TextStyle(
@@ -72,12 +68,9 @@ class PromotionView extends GetView<PromotionController> {
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                 ),
-                                onPressed: () {
-                                  Get.to(
-                                    () => const CreatePromotionView(),
-                                    binding: CreatePromotionBinding(),
-                                  );
-                                },
+                                 onPressed: () {
+                                   Navigator.pushNamed(context, '/create-promotion');
+                                 },
                                 icon: const Icon(Icons.add, size: 18),
                                 label: const Text('Create Promotion'),
                               ),
@@ -108,10 +101,7 @@ class PromotionView extends GetView<PromotionController> {
                                   ),
                                 ),
                               onPressed: () {
-                                Get.to(
-                                  () => const CreatePromotionView(),
-                                  binding: CreatePromotionBinding(),
-                                );
+                                Navigator.pushNamed(context, '/create-promotion');
                               },
                               icon: const Icon(Icons.add, size: 18),
                               label: const Text('Create Promotion'),
@@ -499,11 +489,7 @@ class PromotionView extends GetView<PromotionController> {
                   ),
                   onPressed: () {
                     Get.back();
-                    Get.to(
-                      () => const UpdatePromotionView(),
-                      binding: UpdatePromotionBinding(),
-                      arguments: promotion,
-                    );
+                    Navigator.pushNamed(context, '/update-promotion', arguments: promotion);
                   },
                   child: const Text(
                     'Update Promotion',

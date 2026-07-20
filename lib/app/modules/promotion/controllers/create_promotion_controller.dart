@@ -86,7 +86,7 @@ class CreatePromotionController extends GetxController {
       await Get.find<ApiProvider>().createPromotion(form);
 
       clearFields();
-      Get.back();
+      Navigator.pop(Get.context!);
 
       if (Get.isRegistered<PromotionController>()) {
         Get.find<PromotionController>().fetchPromotions();

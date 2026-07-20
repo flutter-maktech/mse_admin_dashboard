@@ -43,7 +43,7 @@ class RaceAdminView extends GetView<RaceAdminController> {
                 Expanded(
                   child: _buildHeaderButton(
                     'Promotion',
-                    onPressed: () => Get.toNamed('/promotion'),
+                    onPressed: () => Navigator.pushNamed(context, '/promotion'),
                   ),
                 ),
               ],
