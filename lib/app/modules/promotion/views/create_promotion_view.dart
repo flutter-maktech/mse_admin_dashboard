@@ -3,27 +3,8 @@ import 'package:get/get.dart';
 import '../controllers/create_promotion_controller.dart';
 import '../../../constants/app_colors.dart';
 
-class CreatePromotionView extends StatefulWidget {
+class CreatePromotionView extends GetView<CreatePromotionController> {
   const CreatePromotionView({super.key});
-
-  @override
-  State<CreatePromotionView> createState() => _CreatePromotionViewState();
-}
-
-class _CreatePromotionViewState extends State<CreatePromotionView> {
-  late final CreatePromotionController controller;
-
-  @override
-  void initState() {
-    controller = Get.put(CreatePromotionController());
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    Get.delete<CreatePromotionController>();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +44,7 @@ class _CreatePromotionViewState extends State<CreatePromotionView> {
                     ),
                     IconButton(
                       icon: const Icon(Icons.close, color: AppColors.textBlack),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => Get.back(),
                     ),
                   ],
                 ),

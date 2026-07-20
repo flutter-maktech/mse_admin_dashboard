@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import '../controllers/promotion_controller.dart';
 import '../../../constants/app_colors.dart';
 import '../../../data/models/promotion_model.dart';
+import '../bindings/create_promotion_binding.dart';
+import '../bindings/update_promotion_binding.dart';
 import 'create_promotion_view.dart';
 import 'update_promotion_view.dart';
 
@@ -71,11 +73,9 @@ class PromotionView extends GetView<PromotionController> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const CreatePromotionView(),
-                                    ),
+                                  Get.to(
+                                    () => const CreatePromotionView(),
+                                    binding: CreatePromotionBinding(),
                                   );
                                 },
                                 icon: const Icon(Icons.add, size: 18),
@@ -108,11 +108,9 @@ class PromotionView extends GetView<PromotionController> {
                                   ),
                                 ),
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const CreatePromotionView(),
-                                  ),
+                                Get.to(
+                                  () => const CreatePromotionView(),
+                                  binding: CreatePromotionBinding(),
                                 );
                               },
                               icon: const Icon(Icons.add, size: 18),
@@ -501,11 +499,10 @@ class PromotionView extends GetView<PromotionController> {
                   ),
                   onPressed: () {
                     Get.back();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UpdatePromotionView(promotion: promotion),
-                      ),
+                    Get.to(
+                      () => const UpdatePromotionView(),
+                      binding: UpdatePromotionBinding(),
+                      arguments: promotion,
                     );
                   },
                   child: const Text(

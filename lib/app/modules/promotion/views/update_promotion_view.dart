@@ -4,32 +4,13 @@ import '../controllers/update_promotion_controller.dart';
 import '../../../constants/app_colors.dart';
 import '../../../data/models/promotion_model.dart';
 
-class UpdatePromotionView extends StatefulWidget {
-  final PromotionModel promotion;
-
-  const UpdatePromotionView({super.key, required this.promotion});
-
-  @override
-  State<UpdatePromotionView> createState() => _UpdatePromotionViewState();
-}
-
-class _UpdatePromotionViewState extends State<UpdatePromotionView> {
-  late final UpdatePromotionController controller;
-
-  @override
-  void initState() {
-    controller = Get.put(UpdatePromotionController(promotion: widget.promotion));
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    Get.delete<UpdatePromotionController>();
-    super.dispose();
-  }
+class UpdatePromotionView extends GetView<UpdatePromotionController> {
+  const UpdatePromotionView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final PromotionModel promotion = controller.promotion;
+
     return Scaffold(
       backgroundColor: AppColors.rowWhite,
       body: SingleChildScrollView(
@@ -66,7 +47,7 @@ class _UpdatePromotionViewState extends State<UpdatePromotionView> {
                     ),
                     IconButton(
                       icon: const Icon(Icons.close, color: AppColors.textBlack),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => Get.back(),
                     ),
                   ],
                 ),
@@ -104,7 +85,7 @@ class _UpdatePromotionViewState extends State<UpdatePromotionView> {
                 const SizedBox(height: 8),
                 Obx(() {
                   final bytes = controller.imageBytes.value;
-                  final imageUrl = widget.promotion.imageUrl;
+                  final imageUrl = promotion.imageUrl;
 
                   return GestureDetector(
                     onTap: controller.pickImage,
