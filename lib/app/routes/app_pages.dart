@@ -20,8 +20,6 @@ import '../modules/create_race/views/create_race_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/promotion/bindings/promotion_binding.dart';
-import '../modules/promotion/bindings/create_promotion_binding.dart';
-import '../modules/promotion/bindings/update_promotion_binding.dart';
 import '../modules/promotion/views/promotion_view.dart';
 import '../modules/promotion/views/create_promotion_view.dart';
 import '../modules/promotion/views/update_promotion_view.dart';
@@ -92,12 +90,10 @@ class AppPages {
     GetPage(
       name: _Paths.createPromotion,
       page: () => const CreatePromotionView(),
-      binding: CreatePromotionBinding(),
     ),
     GetPage(
       name: _Paths.updatePromotion,
       page: () => const UpdatePromotionView(),
-      binding: UpdatePromotionBinding(),
     ),
   ];
 }

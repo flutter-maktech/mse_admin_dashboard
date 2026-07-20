@@ -24,9 +24,15 @@ class PromotionView extends GetView<PromotionController> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               alignment: Alignment.center,
               child: InkWell(
-                onTap: () => Navigator.pop(context),
+                onTap: () {
+                  if (Navigator.canPop(context)) {
+                    Get.back();
+                  } else {
+                    Get.offAllNamed('/race-admin');
+                  }
+                },
                 child: const Text(
-                  'Promotions',
+                  'Dashboard',
                   style: TextStyle(
                     color: AppColors.rowWhite,
                     fontSize: 16,
@@ -68,9 +74,10 @@ class PromotionView extends GetView<PromotionController> {
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                 ),
-                                 onPressed: () {
-                                   Navigator.pushNamed(context, '/create-promotion');
-                                 },
+                                onPressed: () {
+                                  controller.clearFields();
+                                  Get.toNamed('/create-promotion');
+                                },
                                 icon: const Icon(Icons.add, size: 18),
                                 label: const Text('Create Promotion'),
                               ),
@@ -101,7 +108,8 @@ class PromotionView extends GetView<PromotionController> {
                                   ),
                                 ),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/create-promotion');
+                                controller.clearFields();
+                                Get.toNamed('/create-promotion');
                               },
                               icon: const Icon(Icons.add, size: 18),
                               label: const Text('Create Promotion'),
@@ -489,7 +497,8 @@ class PromotionView extends GetView<PromotionController> {
                   ),
                   onPressed: () {
                     Get.back();
-                    Navigator.pushNamed(context, '/update-promotion', arguments: promotion);
+                    controller.setFieldsForUpdate(promotion);
+                    Get.toNamed('/update-promotion', arguments: promotion);
                   },
                   child: const Text(
                     'Update Promotion',

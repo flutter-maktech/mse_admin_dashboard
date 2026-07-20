@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/create_promotion_controller.dart';
+import '../controllers/promotion_controller.dart';
 import '../../../constants/app_colors.dart';
 
-class CreatePromotionView extends GetView<CreatePromotionController> {
+class CreatePromotionView extends GetView<PromotionController> {
   const CreatePromotionView({super.key});
 
   @override

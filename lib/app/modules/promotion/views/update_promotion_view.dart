@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/update_promotion_controller.dart';
+import '../controllers/promotion_controller.dart';
 import '../../../constants/app_colors.dart';
 import '../../../data/models/promotion_model.dart';
 
-class UpdatePromotionView extends GetView<UpdatePromotionController> {
+class UpdatePromotionView extends GetView<PromotionController> {
   const UpdatePromotionView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final PromotionModel promotion = controller.promotion;
+    final PromotionModel promotion = Get.arguments as PromotionModel;
 
     return Scaffold(
       backgroundColor: AppColors.rowWhite,
@@ -210,7 +210,7 @@ class UpdatePromotionView extends GetView<UpdatePromotionController> {
                       ),
                       onPressed: controller.isLoading.value
                           ? null
-                          : controller.updatePromotion,
+                          : () => controller.updatePromotion(promotion.id!),
                       child: controller.isLoading.value
                           ? const SizedBox(
                               width: 20,

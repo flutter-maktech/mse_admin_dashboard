@@ -4,6 +4,6 @@ import '../controllers/promotion_controller.dart';
 class PromotionBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<PromotionController>(() => PromotionController());
+    Get.lazyPut<PromotionController>(() => PromotionController(), fenix: true);
   }
 }
