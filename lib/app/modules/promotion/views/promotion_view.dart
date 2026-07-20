@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import '../controllers/promotion_controller.dart';
 import '../../../constants/app_colors.dart';
 import '../../../data/models/promotion_model.dart';
+import 'create_promotion_view.dart';
+import 'update_promotion_view.dart';
 
 class PromotionView extends GetView<PromotionController> {
   const PromotionView({super.key});
@@ -69,7 +71,12 @@ class PromotionView extends GetView<PromotionController> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  Get.toNamed('/create-promotion');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const CreatePromotionView(),
+                                    ),
+                                  );
                                 },
                                 icon: const Icon(Icons.add, size: 18),
                                 label: const Text('Create Promotion'),
@@ -101,7 +108,12 @@ class PromotionView extends GetView<PromotionController> {
                                   ),
                                 ),
                               onPressed: () {
-                                Get.toNamed('/create-promotion');
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const CreatePromotionView(),
+                                  ),
+                                );
                               },
                               icon: const Icon(Icons.add, size: 18),
                               label: const Text('Create Promotion'),
@@ -489,9 +501,12 @@ class PromotionView extends GetView<PromotionController> {
                   ),
                   onPressed: () {
                     Get.back();
-                    Future.microtask(() {
-                      Get.toNamed('/update-promotion', arguments: promotion);
-                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UpdatePromotionView(promotion: promotion),
+                      ),
+                    );
                   },
                   child: const Text(
                     'Update Promotion',

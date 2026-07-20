@@ -7,6 +7,10 @@ import '../../../data/providers/api_provider.dart';
 import 'promotion_controller.dart';
 
 class UpdatePromotionController extends GetxController {
+  final PromotionModel promotion;
+
+  UpdatePromotionController({required this.promotion});
+
   late TextEditingController titleController;
   late TextEditingController descriptionController;
   late TextEditingController urlController;
@@ -25,11 +29,8 @@ class UpdatePromotionController extends GetxController {
     descriptionController = TextEditingController();
     urlController = TextEditingController();
 
-    final PromotionModel? promotion = Get.arguments as PromotionModel?;
-    if (promotion != null) {
-      promotionId = promotion.id;
-      setFieldsForUpdate(promotion);
-    }
+    promotionId = promotion.id;
+    setFieldsForUpdate(promotion);
     super.onInit();
   }
 
