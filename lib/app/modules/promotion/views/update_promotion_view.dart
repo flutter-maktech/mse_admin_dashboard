@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/promotion_controller.dart';
+import '../controllers/update_promotion_controller.dart';
 import '../../../constants/app_colors.dart';
 import '../../../data/models/promotion_model.dart';
 
-class UpdatePromotionView extends GetView<PromotionController> {
+class UpdatePromotionView extends GetView<UpdatePromotionController> {
   const UpdatePromotionView({super.key});
 
   @override
@@ -210,7 +210,7 @@ class UpdatePromotionView extends GetView<PromotionController> {
                       ),
                       onPressed: controller.isLoading.value
                           ? null
-                          : () => controller.updatePromotion(promotion.id!),
+                          : controller.updatePromotion,
                       child: controller.isLoading.value
                           ? const SizedBox(
                               width: 20,

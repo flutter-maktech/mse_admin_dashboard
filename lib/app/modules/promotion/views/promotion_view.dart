@@ -69,7 +69,6 @@ class PromotionView extends GetView<PromotionController> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  controller.clearFields();
                                   Get.toNamed('/create-promotion');
                                 },
                                 icon: const Icon(Icons.add, size: 18),
@@ -102,7 +101,6 @@ class PromotionView extends GetView<PromotionController> {
                                   ),
                                 ),
                               onPressed: () {
-                                controller.clearFields();
                                 Get.toNamed('/create-promotion');
                               },
                               icon: const Icon(Icons.add, size: 18),
@@ -491,8 +489,9 @@ class PromotionView extends GetView<PromotionController> {
                   ),
                   onPressed: () {
                     Get.back();
-                    controller.setFieldsForUpdate(promotion);
-                    Get.toNamed('/update-promotion', arguments: promotion);
+                    Future.microtask(() {
+                      Get.toNamed('/update-promotion', arguments: promotion);
+                    });
                   },
                   child: const Text(
                     'Update Promotion',
