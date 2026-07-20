@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       initialRoute: AppPages.initial,
       debugShowCheckedModeBanner: false,
       getPages: AppPages.routes,
+      navigatorObservers: [GetObserver()],
       initialBinding: BindingsBuilder(() {
         Get.put<ApiProvider>(ApiProvider(), permanent: true);
       }),
