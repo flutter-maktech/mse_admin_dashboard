@@ -46,12 +46,76 @@ class CreateRaceView extends GetView<CreateRaceController> {
 
               const SizedBox(height: 24),
 
-              _buildLabel('Paste Logo Link'),
+              _buildLabel('Select Logo Image'),
               const SizedBox(height: 8),
-              _buildTextField(
-                controller.logoLinkController,
-                'https://www.google.com/image',
-              ),
+              Obx(() {
+                final bytes = controller.imageBytes.value;
+                return GestureDetector(
+                  onTap: controller.pickImage,
+                  child: Container(
+                    width: double.infinity,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      color: AppColors.rowWhite,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: bytes != null
+                        ? Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(4),
+                                child: Image.memory(
+                                  bytes,
+                                  width: double.infinity,
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned(
+                                top: 8,
+                                right: 8,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black54,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
+                                    onPressed: controller.pickImage,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.image_outlined,
+                                size: 36,
+                                color: AppColors.textBlack.withValues(
+                                  alpha: 0.4,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Click to select image',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppColors.textBlack.withValues(
+                                    alpha: 0.5,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                  ),
+                );
+              }),
 
               const SizedBox(height: 40),
               Obx(
