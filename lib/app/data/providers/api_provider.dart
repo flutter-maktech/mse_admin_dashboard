@@ -64,8 +64,8 @@ class ApiProvider extends GetConnect {
     }
   }
 
-  Future<void> updateRace(int id, Map<String, dynamic> data) async {
-    final response = await put('/race/$id', data);
+  Future<void> updateRace(int id, FormData form) async {
+    final response = await put('/race/$id', form);
     if (response.status.hasError) {
       return Future.error(
         response.body?['detail'] ??
@@ -75,8 +75,8 @@ class ApiProvider extends GetConnect {
     }
   }
 
-  Future<RaceModel> createRace(Map<String, dynamic> data) async {
-    final response = await post('/race/', data);
+  Future<RaceModel> createRace(FormData form) async {
+    final response = await post('/race/', form);
     if (response.status.hasError) {
       return Future.error(
         response.body?['detail'] ??

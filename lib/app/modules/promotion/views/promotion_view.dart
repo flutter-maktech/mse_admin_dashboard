@@ -24,15 +24,9 @@ class PromotionView extends GetView<PromotionController> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               alignment: Alignment.center,
               child: InkWell(
-                onTap: () {
-                  if (Navigator.canPop(context)) {
-                    Get.back();
-                  } else {
-                    Get.offAllNamed('/race-admin');
-                  }
-                },
+                onTap: () => Get.back(),
                 child: const Text(
-                  'Dashboard',
+                  'Promotions',
                   style: TextStyle(
                     color: AppColors.rowWhite,
                     fontSize: 16,

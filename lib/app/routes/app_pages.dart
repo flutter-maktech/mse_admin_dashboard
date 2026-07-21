@@ -90,10 +90,12 @@ class AppPages {
     GetPage(
       name: _Paths.createPromotion,
       page: () => const CreatePromotionView(),
+      binding: PromotionBinding(),
     ),
     GetPage(
       name: _Paths.updatePromotion,
       page: () => const UpdatePromotionView(),
+      binding: PromotionBinding(),
     ),
   ];
 }
